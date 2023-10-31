@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+vector<string> split(string target, string delimiter) {
+    vector<string> result;
+    unsigned long long pos = 0;
+
+    while ((pos = target.find(delimiter)) != -1) {
+        result.push_back(target.substr(0, pos));
+        target.erase(0, pos + delimiter.length());
+    }
+
+    if (!target.empty()) {
+        result.push_back(target);
+    }
+
+    return result;
+}
+
+int main(){
+    vector<string> result = split("10,20,30", ",");
+    for( auto it: result ){
+        cout<< it <<" ";
+    }
+}
