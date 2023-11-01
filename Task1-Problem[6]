@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+static int binaryPrint(int n)
+{
+    if (n > 1)
+    {
+        binaryPrint(n / 2);
+    }
+    cout << n % 2 ;
+}
+void numbers(string prefix, int k) {
+    if (k == 0) {
+        cout << prefix << endl;
+        return;
+    }
+
+    string binary_digits = "01";
+
+    for (int i = 0; i < binary_digits.size(); i++) {
+
+        numbers(prefix + binary_digits[i] , k - 1);
+    }
+}
+int main()
+{
+    binaryPrint(27);
+    cout<<endl;
+    numbers("00101", 2);
+}
