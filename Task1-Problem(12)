@@ -1,0 +1,90 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
+
+using namespace std;
+int main() {
+    string filename = "example of phishing email.txt";
+
+    // Define the phishing keywords and their point values
+    map<string, int> phishingKeywords = {
+            {"password", 2},
+            {"bank", 3},
+            {"security", 2},
+            {"urgent",3},
+            {"verify",3},
+            {"account",3},
+            {"suspended",3},
+            {"click here",3},
+            {"update",2},
+            {"confirm",2} ,
+            {"login", 2},
+            {"PayPal", 2},
+            {"Amazon" , 2},
+            {"eBay", 2},
+            {"congratulations", 1},
+            {"winner", 1},
+            {"prize", 1},
+            {"lottery", 1},
+            {"survey", 1},
+            {"offer", 1},
+            {"free", 1},
+            {"gift card", 1},
+            {"bank", 1},
+            {"credit card", 1},
+            {"social security number", 11},
+            {"IRS", 1},
+            {"invoice", 1},
+            {"delivery" , 1},
+            {"support",1},
+            {"username",1}
+    };
+
+    // Open the file
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Failed to open the file." << endl;
+        return 1;
+    }
+
+    string line;
+    map<string, int> occurrences;
+
+    // Read the file line by line
+    while (getline(file, line)) {
+        // Process each line
+        for ( auto& pair : phishingKeywords) {
+            string keyword = pair.first;
+            int pointValue = pair.second;
+
+            unsigned long long pos = line.find(keyword);
+            while (pos != string::npos) {
+                occurrences[keyword] += pointValue;
+                pos = line.find(keyword, pos + 1);
+            }
+        }
+    }
+
+    // Output the occurrences and point totals for each keyword
+    for ( auto& pair : occurrences) {
+         string keyword = pair.first;
+         int count = pair.second;
+        cout << "Keyword: " << keyword << ", Occurrences: " << count << ", Points: " << count * phishingKeywords[keyword] << endl;
+    }
+
+    // Calculate the total points for the entire message
+    int totalPoints = 0;
+    for ( auto& pair : occurrences) {
+        totalPoints += pair.second * phishingKeywords[pair.first];
+    }
+
+    cout << "Total Points: " << totalPoints << endl;
+
+    // Close the file
+    file.close();
+
+    return 0;
+}
+
+
