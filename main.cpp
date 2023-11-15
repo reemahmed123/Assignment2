@@ -4,6 +4,7 @@
 #include<string>
 #include<cstring>
 using namespace std;
+//create memory class
 class Memory {
 protected:
     vector<int> memory;
